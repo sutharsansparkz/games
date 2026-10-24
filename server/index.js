@@ -100,5 +100,5 @@ app.use((req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`GameTotal API running on http://localhost:${PORT}`);
+  console.log(`SparkzWorlds API running on http://localhost:${PORT}`);
 });

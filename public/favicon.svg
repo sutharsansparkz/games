@@ -1,12 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#08080a" />
-  <text
-    x="16"
-    y="24"
-    text-anchor="middle"
-    font-family="Arial Narrow, system-ui, sans-serif"
-    font-size="23"
-    font-weight="700"
-    fill="#ff4b3e"
-  >G</text>
+  <defs>
+    <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#48d9ff" />
+      <stop offset="1" stop-color="#5277ff" />
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="9" fill="#07111f" />
+  <path d="m17.2 3.5-9 14h6.3l-1.4 11 9.7-15h-6.4l.8-10Z" fill="url(#spark)" />
 </svg>

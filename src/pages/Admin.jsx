@@ -222,7 +222,7 @@ export default function Admin() {
       <div className="relative flex min-h-svh items-center justify-center overflow-hidden bg-cine px-5 font-sans text-chalk">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(255,75,62,0.16),transparent_58%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(47,140,255,0.16),transparent_58%)]"
         />
 
         <form
@@ -230,7 +230,7 @@ export default function Admin() {
           className="relative w-full max-w-sm rounded-xl border border-white/10 bg-panel/95 p-8 shadow-[0_40px_90px_-50px_rgba(0,0,0,1)]"
         >
           <p className="font-display text-2xl leading-none tracking-[0.06em] text-signal">
-            GAMETOTAL
+            SPARKZWORLDS
           </p>
 
           <h1 className="mt-6 font-display text-3xl uppercase tracking-wide">Admin access</h1>
@@ -316,7 +316,7 @@ export default function Admin() {
               to="/"
               className="font-display text-xl leading-none tracking-[0.06em] text-signal sm:text-2xl"
             >
-              GAMETOTAL
+              SPARKZWORLDS
             </Link>
             <span className="rounded border border-signal/40 bg-signal/10 px-2 py-0.5 text-[11px] font-semibold text-signal">
               Admin

@@ -1,6 +1,6 @@
-# GameTotal — Game Showcase
+# SparkzWorlds — Game Showcase
 
-A personal game showcase built with **React + Vite + Tailwind CSS**. It shows
+A personal game universe built with **React + Vite + Tailwind CSS**. It shows
 games you built yourself plus hand-picked games from your Steam library.
 
 ## Stack
@@ -17,6 +17,8 @@ cp .env.example .env   # add your Steam key, Steam ID, and admin password
 npm run seed           # import your Steam library into data/db.json
 npm run dev            # API (port 3001) + Vite (port 5173)
 ```
+
+Or run `./dev.sh`, which installs dependencies on first run and then starts both servers.
 
 Open:
 

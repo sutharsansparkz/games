@@ -1,18 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { CloseIcon, SearchIcon } from './Icons';
+import { CloseIcon, SearchIcon, ShareIcon, ShuffleIcon } from './Icons';
 
 export default function Header({
   showCustom = true,
   showSteam = true,
+  showTop = false,
   searchOpen = false,
   query = '',
   onSearchOpen,
   onSearchClose,
   onQueryChange,
+  onShuffle,
+  onShare,
 }) {
   const [scrolled, setScrolled] = useState(false);
+  const [active, setActive] = useState('top');
   const inputRef = useRef(null);
+
+  const items = [
+    { id: 'top', label: 'Home', href: '#top', enabled: true },
+    { id: 'row-top', label: 'Top picks', href: '#row-top', enabled: showTop },
+    { id: 'row-made', label: 'Originals', href: '#row-made', enabled: showCustom },
+    { id: 'row-steam', label: 'Steam library', href: '#row-steam', enabled: showSteam },
+  ].filter((item) => item.enabled);
 
   useEffect(() => {
     function onScroll() {
@@ -28,47 +38,120 @@ export default function Header({
     if (searchOpen) inputRef.current?.focus();
   }, [searchOpen]);
 
+  useEffect(() => {
+    const sections = items.filter((item) => item.id !== 'top');
+    if (!sections.length) {
+      setActive('top');
+      return undefined;
+    }
+
+    let frame = 0;
+
+    function update() {
+      frame = 0;
+      let current = 'top';
+
+      for (const item of sections) {
+        const element = document.getElementById(item.id);
+        if (element && element.getBoundingClientRect().top <= 130) current = item.id;
+      }
+
+      setActive(current);
+    }
+
+    function onScroll() {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
+    }
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+    // Navigation targets only change when the visible shelves change.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showCustom, showSteam, showTop]);
+
+  useEffect(() => {
+    function onKeyDown(event) {
+      if (event.key !== '/' || searchOpen) return;
+
+      const target = event.target;
+      const typing =
+        target instanceof HTMLElement &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.isContentEditable);
+
+      if (typing) return;
+      event.preventDefault();
+      onSearchOpen?.();
+    }
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [searchOpen, onSearchOpen]);
+
   const solid = scrolled || searchOpen;
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
+      className={`site-header fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
         solid
-          ? 'border-b border-white/10 bg-cine/95 backdrop-blur-md'
-          : 'bg-linear-to-b from-cine/90 via-cine/40 to-transparent'
+          ? 'border-white/10 bg-cine/90 shadow-[0_20px_70px_-35px_rgba(0,0,0,1)] backdrop-blur-xl'
+          : 'border-transparent bg-linear-to-b from-cine/95 via-cine/55 to-transparent'
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-4 px-5 sm:h-[4.5rem] sm:px-10">
+      <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-2 px-4 sm:h-[4.5rem] sm:gap-4 sm:px-10">
         <a
           href="#top"
-          className="shrink-0 font-display text-xl leading-none tracking-[0.06em] text-signal sm:text-[1.7rem]"
+          className={`${searchOpen ? 'hidden sm:flex' : 'flex'} shrink-0 items-center gap-2.5 font-display text-lg leading-none tracking-[0.08em] text-chalk sm:text-[1.7rem]`}
         >
-          GAMETOTAL
+          <span className="logo-mark" aria-hidden="true" />
+          <span className="tracking-[0.02em]">
+            SPARKZ<span className="text-signal">WORLDS</span>
+          </span>
         </a>
 
-        <nav aria-label="Primary" className="ml-2 hidden items-center gap-5 md:flex">
-          <a href="#top" className="text-sm text-chalk hover:text-white">
-            Home
-          </a>
-          {showCustom ? (
-            <a href="#row-made" className="text-sm text-chalk/70 transition-colors hover:text-chalk">
-              Made by me
-            </a>
-          ) : null}
-          {showSteam ? (
+        <nav
+          aria-label="Primary"
+          className={`ml-3 hidden min-w-0 items-center gap-4 lg:gap-6 ${searchOpen ? 'md:hidden' : 'md:flex'}`}
+        >
+          {items.map((item) => (
             <a
-              href="#row-steam"
-              className="text-sm text-chalk/70 transition-colors hover:text-chalk"
+              key={item.id}
+              href={item.href}
+              aria-current={active === item.id ? 'location' : undefined}
+              className={`nav-link pb-1 text-sm font-medium transition-colors duration-200 ${
+                active === item.id ? 'is-active text-chalk' : 'text-chalk/65 hover:text-chalk'
+              }`}
             >
-              Steam library
+              {item.label}
             </a>
-          ) : null}
+          ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+        <div className={`ml-auto flex min-w-0 items-center gap-1 sm:gap-2 ${searchOpen ? 'w-full sm:w-auto' : ''}`}>
+          {onShare ? (
+            <button
+              type="button"
+              onClick={onShare}
+              aria-label="Share SparkzWorlds"
+              title="Share this library"
+              className={`${searchOpen ? 'hidden sm:grid' : 'grid'} h-8 w-8 place-items-center rounded-full text-chalk/80 transition-[background-color,color,transform] duration-200 hover:scale-105 hover:bg-white/10 hover:text-chalk sm:h-9 sm:w-9`}
+            >
+              <ShareIcon className="h-[18px] w-[18px]" />
+            </button>
+          ) : null}
+
           <div
-            className={`flex h-9 items-center rounded-full transition-colors duration-200 ${
-              searchOpen ? 'border border-white/20 bg-cine/85' : ''
+            className={`flex h-9 min-w-0 items-center rounded-full ring-1 transition-[background-color,box-shadow] duration-300 ${
+              searchOpen ? 'w-full flex-1 bg-white/10 ring-white/25 focus-within:ring-beam/60 sm:w-auto sm:flex-none' : 'bg-transparent ring-transparent'
             }`}
           >
             <button
@@ -83,42 +166,61 @@ export default function Header({
             </button>
 
             {searchOpen ? (
-              <input
-                ref={inputRef}
-                id="site-search"
-                name="search"
-                type="search"
-                value={query}
-                onChange={(event) => onQueryChange(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Escape') onSearchClose();
-                }}
-                placeholder="Search titles"
-                autoComplete="off"
-                className="search-field w-28 bg-transparent pr-3 text-sm text-chalk placeholder:text-smoke/80 focus:outline-none sm:w-56"
-              />
+              <>
+                <label htmlFor="site-search" className="sr-only">
+                  Search games
+                </label>
+                <input
+                  ref={inputRef}
+                  id="site-search"
+                  name="search"
+                  type="search"
+                  value={query}
+                  onChange={(event) => onQueryChange(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape') onSearchClose();
+                  }}
+                  placeholder="Search titles…"
+                  autoComplete="off"
+                  className="search-field min-w-0 w-32 bg-transparent pr-3 text-sm text-chalk placeholder:text-smoke/80 focus:outline-none sm:w-60"
+                />
+              </>
             ) : null}
           </div>
 
-          <span className="hidden items-center gap-1.5 text-xs text-smoke lg:flex">
-            <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-sans text-[11px] text-chalk">
-              ⌥ A
-            </kbd>
-            admin
-          </span>
-
-          <Link
-            to="/admin"
-            title="Admin panel (Option + A)"
-            aria-label="Admin panel"
-            className={`h-9 w-9 place-items-center rounded-full bg-panel-2 text-sm font-semibold text-chalk ring-1 ring-white/15 transition-[box-shadow] duration-200 hover:ring-signal/70 ${
-              searchOpen ? 'hidden sm:grid' : 'grid'
-            }`}
-          >
-            A
-          </Link>
+          {onShuffle ? (
+            <button
+              type="button"
+              onClick={onShuffle}
+              aria-label="Open a random game"
+              title="Surprise me"
+              className={`${searchOpen ? 'hidden sm:grid' : 'grid'} group/shuffle h-8 w-8 place-items-center rounded-full bg-white/5 text-chalk ring-1 ring-white/15 transition-[background-color,scale] duration-200 hover:scale-105 hover:bg-white/10 hover:ring-white/30 sm:h-9 sm:w-9`}
+            >
+              <ShuffleIcon className="h-[18px] w-[18px] transition-transform duration-300 group-hover/shuffle:rotate-12" />
+            </button>
+          ) : null}
         </div>
       </div>
+
+      <nav
+        aria-label="Sections"
+        className="row-scroll flex gap-2 overflow-x-auto px-5 pb-3 md:hidden"
+      >
+        {items.map((item) => (
+          <a
+            key={item.id}
+            href={item.href}
+            aria-current={active === item.id ? 'location' : undefined}
+            className={`shrink-0 rounded-full px-3 py-1 text-xs font-medium ring-1 transition-colors duration-200 ${
+              active === item.id
+                ? 'bg-chalk text-cine ring-chalk'
+                : 'bg-white/5 text-chalk/70 ring-white/10 hover:bg-white/10 hover:text-chalk'
+            }`}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
     </header>
   );
 }

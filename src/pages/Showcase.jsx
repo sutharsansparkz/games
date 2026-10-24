@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ParallaxProvider } from 'react-scroll-parallax';
-import { Link } from 'react-router-dom';
 import Billboard from '../components/Billboard';
 import GameCard from '../components/GameCard';
 import GameModal from '../components/GameModal';
 import GameRow from '../components/GameRow';
 import Header from '../components/Header';
 import usePrefersReducedMotion from '../hooks/usePrefersReducedMotion';
+import { heroArt } from '../lib/art';
 
 function LoadingScreen() {
   return (
@@ -15,31 +15,48 @@ function LoadingScreen() {
         Loading your library…
       </p>
 
-      <div className="relative min-h-[80svh] overflow-hidden bg-panel">
-        <div className="absolute inset-0 animate-pulse bg-linear-to-t from-cine via-panel to-panel-2" />
-        <div className="relative mx-auto flex min-h-[80svh] max-w-[1600px] items-end px-5 pb-24 pt-32 sm:px-10 sm:pb-28 sm:pt-36">
-          <div className="w-full max-w-xl animate-pulse">
-            <div className="h-5 w-28 rounded bg-white/10" />
-            <div className="mt-4 h-16 w-4/5 rounded bg-white/10" />
-            <div className="mt-5 h-4 w-full rounded bg-white/5" />
-            <div className="mt-2 h-4 w-3/4 rounded bg-white/5" />
-            <div className="mt-7 h-10 w-44 rounded bg-white/10" />
+      <div className="relative min-h-[82svh] overflow-hidden">
+        <div className="skeleton absolute inset-0 opacity-40" />
+        <div className="absolute inset-0 bg-linear-to-r from-cine via-cine/60 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-3/4 bg-linear-to-t from-cine via-cine/60 to-transparent" />
+
+        <div className="relative mx-auto flex min-h-[82svh] max-w-[1600px] items-end px-5 pb-24 pt-32 sm:px-10 sm:pb-28 sm:pt-36">
+          <div className="w-full max-w-xl">
+            <div className="skeleton h-3 w-36 rounded-full" />
+            <div className="mt-4 flex gap-2">
+              <div className="skeleton h-6 w-24 rounded" />
+              <div className="skeleton h-6 w-16 rounded" />
+            </div>
+            <div className="skeleton mt-5 h-16 w-4/5 rounded-lg sm:h-20" />
+            <div className="skeleton mt-4 h-4 w-full rounded" />
+            <div className="skeleton mt-2 h-4 w-3/4 rounded" />
+            <div className="mt-7 flex gap-3">
+              <div className="skeleton h-11 w-40 rounded-md" />
+              <div className="skeleton h-11 w-32 rounded-md" />
+            </div>
           </div>
+        </div>
+
+        <div className="absolute bottom-7 right-10 hidden items-center gap-2 sm:flex">
+          <div className="skeleton h-2 w-16 rounded-full" />
+          <div className="skeleton h-2 w-2 rounded-full" />
+          <div className="skeleton h-2 w-2 rounded-full" />
         </div>
       </div>
 
-      <div className="relative z-10 -mt-12 space-y-8 pb-20 sm:-mt-20">
+      <div className="relative z-10 -mt-12 space-y-10 pb-20 sm:-mt-20 sm:space-y-12">
         {[0, 1].map((row) => (
           <div key={row} className="px-5 sm:px-10">
-            <div className="mb-3 h-5 w-44 animate-pulse rounded bg-white/10" />
-            <div className="flex gap-2 overflow-hidden sm:gap-3">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="skeleton h-6 w-1 rounded-full" />
+              <div className="skeleton h-6 w-48 rounded" />
+            </div>
+            <div className="flex gap-3 overflow-hidden">
               {[0, 1, 2, 3, 4].map((card) => (
                 <div
                   key={card}
-                  className="w-[230px] shrink-0 animate-pulse rounded-md bg-panel sm:w-[300px]"
-                >
-                  <div className="aspect-[16/9]" />
-                </div>
+                  className="skeleton aspect-[16/9] w-[250px] shrink-0 rounded-lg sm:w-[320px]"
+                />
               ))}
             </div>
           </div>
@@ -51,101 +68,50 @@ function LoadingScreen() {
 
 function ErrorScreen({ error, onRetry }) {
   return (
-    <div className="mx-auto flex min-h-[75svh] max-w-lg flex-col items-center justify-center px-5 pt-24 text-center">
-      <p className="font-display text-4xl uppercase tracking-wide text-chalk sm:text-5xl">
-        The shelf is offline
-      </p>
-      <p className="mt-4 text-sm leading-relaxed text-smoke">
-        Your library couldn’t be loaded. {error}
-      </p>
-      <button
-        type="button"
-        onClick={onRetry}
-        className="mt-7 rounded bg-signal-deep px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-signal-deep/90"
-      >
-        Try again
-      </button>
+    <div className="relative flex min-h-[80svh] items-center justify-center overflow-hidden px-5 pb-16 pt-32 text-center">
+      <div
+        aria-hidden="true"
+        className="absolute left-1/2 top-1/2 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal/10 blur-[120px]"
+      />
+      <div className="relative max-w-lg rise">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-signal">
+          Connection lost
+        </p>
+        <p className="mt-3 font-display text-4xl uppercase leading-none tracking-wide text-chalk sm:text-5xl">
+          The shelf is offline
+        </p>
+        <p className="mt-4 text-sm leading-relaxed text-smoke">
+          Your library couldn’t be loaded. {error}
+        </p>
+        <button
+          type="button"
+          onClick={onRetry}
+          className="mt-7 rounded-md bg-chalk px-5 py-2.5 text-sm font-semibold text-cine transition-colors duration-200 hover:bg-white"
+        >
+          Try again
+        </button>
+      </div>
     </div>
   );
 }
 
 function EmptyScreen() {
   return (
-    <div className="relative flex min-h-[78svh] items-center justify-center overflow-hidden px-5 pb-16 pt-32 text-center">
+    <div className="relative flex min-h-[84svh] items-center justify-center overflow-hidden px-5 pb-16 pt-32 text-center">
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,75,62,0.18),transparent_58%)]"
+        className="absolute left-1/2 top-1/2 h-[32rem] w-[32rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-beam/10 blur-[130px]"
       />
-      <div className="relative max-w-lg">
-        <h1 className="font-display text-5xl uppercase leading-none tracking-wide text-chalk sm:text-6xl">
+      <div className="relative max-w-lg rise">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.3em] text-beam">SPARKZWORLDS</p>
+        <h1 className="mt-3 font-display text-5xl uppercase leading-none tracking-wide text-chalk sm:text-6xl">
           Your shelf is empty
         </h1>
         <p className="mt-4 text-sm leading-relaxed text-smoke sm:text-base">
-          No games are selected yet. Open the admin panel, choose what should appear, and your
-          library will show up here.
+          No games are on the shelf yet. Check back soon for the latest picks.
         </p>
-        <Link
-          to="/admin"
-          className="mt-7 inline-flex rounded bg-signal-deep px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-signal-deep/90"
-        >
-          Open the admin panel
-        </Link>
       </div>
     </div>
-  );
-}
-
-function SearchResults({ query, results, onClear }) {
-  return (
-    <section
-      aria-labelledby="search-heading"
-      className="mx-auto max-w-[1600px] px-5 pb-20 pt-24 sm:px-10 sm:pt-32"
-    >
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1
-            id="search-heading"
-            className="font-display text-4xl uppercase leading-none tracking-wide text-chalk sm:text-5xl"
-          >
-            Search results
-          </h1>
-          <p aria-live="polite" className="mt-3 text-sm text-smoke">
-            {results.length === 0
-              ? `No games match “${query.trim()}”.`
-              : `${results.length} ${results.length === 1 ? 'game' : 'games'} for “${query.trim()}”`}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onClear}
-          className="rounded border border-white/20 px-4 py-2 text-sm text-chalk transition-colors duration-200 hover:border-signal/60 hover:text-signal"
-        >
-          Clear search
-        </button>
-      </div>
-
-      {results.length > 0 ? (
-        <div className="mt-8 grid grid-cols-1 gap-x-3 gap-y-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {results.map((game) => (
-            <GameCard key={game.id} game={game} />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-10 rounded-lg border border-white/10 bg-panel/60 p-10 text-center">
-          <p className="text-lg font-semibold text-chalk">Nothing matched that search</p>
-          <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-smoke">
-            Try a shorter title, or clear the search to browse the whole shelf.
-          </p>
-          <button
-            type="button"
-            onClick={onClear}
-            className="mt-5 rounded border border-white/20 px-4 py-2 text-sm text-chalk transition-colors duration-200 hover:border-signal/60 hover:text-signal"
-          >
-            Clear search
-          </button>
-        </div>
-      )}
-    </section>
   );
 }
 
@@ -154,9 +120,10 @@ export default function Showcase() {
   const [status, setStatus] = useState('loading'); // loading | ready | error
   const [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
+  const [selected, setSelected] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [selected, setSelected] = useState(null);
+  const [shareMessage, setShareMessage] = useState('');
   const reducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
@@ -196,15 +163,16 @@ export default function Showcase() {
     [customGames, steamGames],
   );
 
-  const featured = useMemo(() => {
-    if (customGames.length > 0) return { game: customGames[0], kind: 'custom' };
-    if (steamGames.length > 0) {
-      const top = [...steamGames].sort(
-        (a, b) => (b.playtimeHours ?? 0) - (a.playtimeHours ?? 0),
-      )[0];
-      return { game: top, kind: 'steam' };
-    }
-    return null;
+  const heroSlides = useMemo(() => {
+    const custom = customGames.map((game) => ({ game, kind: 'custom' }));
+    const steam = [...steamGames]
+      .sort((a, b) => (b.playtimeHours ?? 0) - (a.playtimeHours ?? 0))
+      .map((game) => ({ game, kind: 'steam' }));
+
+    const slides = [...custom, ...steam];
+    return slides
+      .toSorted((a, b) => Number(Boolean(heroArt(b.game))) - Number(Boolean(heroArt(a.game))))
+      .slice(0, 6);
   }, [customGames, steamGames]);
 
   const mostPlayed = useMemo(
@@ -212,30 +180,44 @@ export default function Showcase() {
       shelf
         .filter(({ game }) => (game.playtimeHours ?? 0) > 0)
         .sort((a, b) => (b.game.playtimeHours ?? 0) - (a.game.playtimeHours ?? 0))
-        .slice(0, 10)
+        .slice(0, 5)
         .map(({ game }) => game),
     [shelf],
   );
 
-  const searchResults = useMemo(() => {
-    const needle = query.trim().toLowerCase();
-    if (!needle) return [];
-    return shelf
-      .filter(
-        ({ game }) =>
-          game.title?.toLowerCase().includes(needle) ||
-          game.description?.toLowerCase().includes(needle),
-      )
-      .map(({ game }) => game);
-  }, [shelf, query]);
-
-  const searching = query.trim().length > 0;
-
   const rows = [
-    { id: 'row-made', title: 'Made by me', games: customGames },
-    { id: 'row-steam', title: 'From your Steam library', games: steamGames },
-    { id: 'row-top', title: 'Most played', subtitle: 'Ranked by hours', games: mostPlayed, ranked: true },
-  ].filter((row) => row.games.length > 0 && (!row.ranked || row.games.length > 1));
+    {
+      id: 'row-top',
+      title: 'Top 5 in your library',
+      navLabel: 'Top picks',
+      subtitle: 'Ranked by hours played and in your Steam library',
+      games: mostPlayed,
+      ranked: true,
+    },
+    {
+      id: 'row-made',
+      title: 'SparkzWorlds Originals',
+      navLabel: 'Originals',
+      subtitle: 'Games built from scratch',
+      games: customGames,
+    },
+    {
+      id: 'row-steam',
+      title: 'In your Steam library',
+      navLabel: 'Steam library',
+      subtitle: 'Pulled straight from your collection',
+      games: steamGames,
+    },
+  ].filter((row) => row.games.length > 0);
+
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  const searchResults = normalizedQuery
+    ? shelf.filter(({ game }) =>
+        `${game.title ?? ''} ${game.description ?? ''} ${game.genres?.join(' ') ?? ''}`
+          .toLocaleLowerCase()
+          .includes(normalizedQuery),
+      )
+    : [];
 
   function retry() {
     setStatus('loading');
@@ -243,8 +225,8 @@ export default function Showcase() {
     setAttempt((value) => value + 1);
   }
 
-  function openSearch() {
-    setSearchOpen(true);
+  function openDetails(slide) {
+    if (slide) setSelected(slide);
   }
 
   function closeSearch() {
@@ -252,8 +234,31 @@ export default function Showcase() {
     setQuery('');
   }
 
-  function openDetails() {
-    if (featured) setSelected(featured);
+  function shuffleGame() {
+    if (!shelf.length) return;
+    openDetails(shelf[Math.floor(Math.random() * shelf.length)]);
+  }
+
+  async function shareShowcase() {
+    const shareData = {
+      title: 'SparkzWorlds',
+      text: 'Explore my game collection on SparkzWorlds.',
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+        setShareMessage('Thanks for sharing SparkzWorlds.');
+      } else if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(shareData.url);
+        setShareMessage('Link copied. Share SparkzWorlds with a friend.');
+      } else {
+        setShareMessage('Copy this page link to share SparkzWorlds.');
+      }
+    } catch (error) {
+      if (error?.name !== 'AbortError') setShareMessage('Could not share the link. Try copying it from your address bar.');
+    }
   }
 
   return (
@@ -267,13 +272,16 @@ export default function Showcase() {
         </a>
 
         <Header
+          showTop={mostPlayed.length > 0}
           showCustom={customGames.length > 0}
           showSteam={steamGames.length > 0}
           searchOpen={searchOpen}
           query={query}
-          onSearchOpen={openSearch}
+          onSearchOpen={() => setSearchOpen(true)}
           onSearchClose={closeSearch}
           onQueryChange={setQuery}
+          onShuffle={shuffleGame}
+          onShare={shareShowcase}
         />
 
         <main id="main" tabIndex={-1}>
@@ -281,50 +289,53 @@ export default function Showcase() {
             <LoadingScreen />
           ) : status === 'error' ? (
             <ErrorScreen error={error} onRetry={retry} />
-          ) : searching ? (
-            <SearchResults query={query} results={searchResults} onClear={() => setQuery('')} />
           ) : (
             <>
-              {featured ? (
-                <Billboard
-                  game={featured.game}
-                  kind={featured.kind}
-                  onMoreInfo={openDetails}
-                />
-              ) : (
-                <EmptyScreen />
-              )}
-
-              {rows.length > 0 ? (
-                <div id="browse" className="relative z-10 -mt-12 space-y-8 pb-16 sm:-mt-20">
-                  {rows.map((row) => (
-                    <GameRow key={row.id} {...row} />
-                  ))}
-                </div>
+              {!normalizedQuery && heroSlides.length > 0 ? (
+                <Billboard slides={heroSlides} onMoreInfo={openDetails} />
               ) : null}
+              {!normalizedQuery && heroSlides.length === 0 ? <EmptyScreen /> : null}
+
+              <div id="browse" className="relative z-10 space-y-10 pb-20 pt-8 sm:space-y-12 sm:pt-10">
+                {normalizedQuery ? (
+                  <section aria-labelledby="search-results-title" className="mx-auto max-w-[1520px] px-5 sm:px-10">
+                    <h1 id="search-results-title" className="font-display text-3xl uppercase text-chalk sm:text-4xl">Search results</h1>
+                    <p className="mt-2 text-sm text-smoke" aria-live="polite">
+                      {searchResults.length} {searchResults.length === 1 ? 'game' : 'games'} for “{query.trim()}”
+                    </p>
+                    {searchResults.length > 0 ? (
+                      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                        {searchResults.map((item, index) => (
+                          <GameCard
+                            key={item.game.id}
+                            game={item.game}
+                            onSelect={() => openDetails(item)}
+                            style={{ '--card-index': Math.min(index, 7) }}
+                            className="w-full"
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="mt-6 rounded-xl border border-white/10 bg-panel/60 p-8 text-sm text-smoke">
+                        No games match that search. Try another title or description.
+                      </p>
+                    )}
+                  </section>
+                ) : rows.map((row) => <GameRow key={row.id} {...row} onSelect={openDetails} />)}
+              </div>
             </>
           )}
         </main>
 
-        <footer className="border-t border-white/10 px-5 py-10 sm:px-10">
-          <div className="mx-auto flex max-w-[1600px] flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="font-display text-xl tracking-[0.06em] text-signal">GAMETOTAL</p>
-              <p className="mt-1 max-w-sm text-sm leading-relaxed text-smoke">
-                The games I make and the ones I keep coming back to.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-              <Link
-                to="/admin"
-                className="text-smoke transition-colors duration-200 hover:text-signal"
-              >
-                Admin panel
-              </Link>
-              <p className="text-xs text-smoke/90">Option + A opens admin</p>
-            </div>
-          </div>
-        </footer>
+        {shareMessage ? (
+          <p
+            role="status"
+            aria-live="polite"
+            className="fixed inset-x-4 bottom-5 z-[70] mx-auto max-w-md rounded-xl border border-white/10 bg-panel/95 px-4 py-3 text-center text-sm text-chalk shadow-2xl backdrop-blur-xl"
+          >
+            {shareMessage}
+          </p>
+        ) : null}
 
         {selected ? (
           <GameModal
