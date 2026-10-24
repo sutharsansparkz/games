@@ -1,0 +1,104 @@
+{
+  "steamGames": [
+    {
+      "id": "steam-203160",
+      "appId": 203160,
+      "source": "steam",
+      "title": "Tomb Raider Game of the Year",
+      "description": "Tomb Raider explores the intense origin story of Lara Croft and her ascent from a young woman to a hardened survivor.",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/203160/13a6dfaa4655377988aa627f03b2322f8bf18ec9/header_alt_assets_0.jpg?t=1792674634",
+      "url": "https://store.steampowered.com/app/203160/",
+      "playtimeHours": 12.5,
+      "visible": true
+    },
+    {
+      "id": "steam-391220",
+      "appId": 391220,
+      "source": "steam",
+      "title": "Rise of the Tomb Raider™",
+      "description": "Rise of the Tomb Raider: 20 Year Celebration includes the base game and Season Pass featuring all-new content. Explore Croft Manor in the new “Blood Ties” story, then defend it against a zombie invasion in “Lara’s Nightmare”.",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/391220/29279804029df9b7540caef5c086c9f0393e2e2d/header_alt_assets_0.jpg?t=1792675385",
+      "url": "https://store.steampowered.com/app/391220/",
+      "playtimeHours": 7.8,
+      "visible": true
+    },
+    {
+      "id": "steam-606150",
+      "appId": 606150,
+      "source": "steam",
+      "title": "Moonlighter",
+      "description": "Moonlighter is an Action RPG with rogue-lite elements that demonstrates two sides of the coin – revealing everyday routines of Will, an adventurous shopkeeper that secretly dreams of becoming a hero.",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/606150/b6b0789b397ed98c8c5871dd2f99945a8fea0332/header.jpg?t=1790860598",
+      "url": "https://store.steampowered.com/app/606150/",
+      "playtimeHours": 0,
+      "visible": false
+    },
+    {
+      "id": "steam-613100",
+      "appId": 613100,
+      "source": "steam",
+      "title": "House Flipper",
+      "description": "House Flipper is a unique chance to become a one-man renovation crew. Buy, repair and remodel devastated houses. Give them a second life and sell them at a profit!",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/613100/6cee40fe293f0bab47534e78bcda64487902efc1/header.jpg?t=1790844381",
+      "url": "https://store.steampowered.com/app/613100/",
+      "playtimeHours": 0,
+      "visible": false
+    },
+    {
+      "id": "steam-738520",
+      "appId": 738520,
+      "source": "steam",
+      "title": "Breathedge",
+      "description": "Survive in outer space! Together with your immortal chicken, discover the truth behind your sudden spaceship crash. Craft tools, pilot vehicles, and even control space stations to survive and explore the wreckage.",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/738520/header.jpg?t=1788188445",
+      "url": "https://store.steampowered.com/app/738520/",
+      "playtimeHours": 0,
+      "visible": false
+    },
+    {
+      "id": "steam-750920",
+      "appId": 750920,
+      "source": "steam",
+      "title": "Shadow of the Tomb Raider: Definitive Edition",
+      "description": "As Lara Croft races to save the world from a Maya apocalypse, she must become the Tomb Raider she is destined to be.",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/750920/86f9744a410121ff869cc19f63aa9e3dfcf54b8d/header_alt_assets_0.jpg?t=1792675045",
+      "url": "https://store.steampowered.com/app/750920/",
+      "playtimeHours": 10.8,
+      "visible": true
+    },
+    {
+      "id": "steam-1091500",
+      "appId": 1091500,
+      "source": "steam",
+      "title": "Cyberpunk 2077",
+      "description": "Cyberpunk 2077 is an open-world, action-adventure RPG set in the dark future of Night City — a dangerous megalopolis obsessed with power, glamor, and ceaseless body modification.",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1091500/48a93d6445a67520ea49833c93dae8f2e68fc540/header_alt_assets_9.jpg?t=1792682505",
+      "url": "https://store.steampowered.com/app/1091500/",
+      "playtimeHours": 35.3,
+      "visible": true
+    },
+    {
+      "id": "steam-1174180",
+      "appId": 1174180,
+      "source": "steam",
+      "title": "Red Dead Redemption 2",
+      "description": "Arthur Morgan and the Van der Linde Gang are outlaws on the run. With federal agents and bounty hunters massing on their heels, the gang must rob, steal, and fight their way across the rugged heartland in order to survive.",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1174180/header.jpg?t=1759502961",
+      "url": "https://store.steampowered.com/app/1174180/",
+      "playtimeHours": 65.3,
+      "visible": true
+    },
+    {
+      "id": "steam-3550490",
+      "appId": 3550490,
+      "source": "steam",
+      "title": "Overcome Your Fears - Caretaker",
+      "description": "Steve Jackson, a 19-year-old guy, is looking after a friends house and encounters eerie events in a small town. Dive into the dark mystery of the events you unwittingly became a part of. Will you be able to uncover the truth?",
+      "imageUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3550490/cbd34ac4c5465cd866035baad4f75ec11293aea1/header.jpg?t=1785927968",
+      "url": "https://store.steampowered.com/app/3550490/",
+      "playtimeHours": 0,
+      "visible": false
+    }
+  ],
+  "customGames": []
+}

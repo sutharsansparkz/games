@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+
+  /* Cinema palette — near-black theatre, warm signal red. */
+  --color-cine: #08080a;
+  --color-panel: #141417;
+  --color-panel-2: #1f1f24;
+  --color-chalk: #f3f3ef;
+  --color-smoke: #9c9ca3;
+  --color-signal: #ff4b3e;
+  --color-signal-deep: #c81f16;
+  --color-lume: #7ee0a3;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--color-cine);
+  color: var(--color-chalk);
+}
+
+::selection {
+  background-color: var(--color-signal);
+  color: var(--color-cine);
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+:where(a, button, input, textarea, select, summary):focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+/* Fixed nav clearance for in-page links. */
+[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+/* Horizontal rows: swipeable, no visible scrollbar. */
+.row-scroll {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.row-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* The rows supply their own clear control. */
+.search-field::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Modal backdrop for the game detail dialog. */
+dialog::backdrop {
+  background-color: rgba(8, 8, 10, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+/* One orchestrated entrance for the billboard. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .row-scroll {
+    scroll-behavior: auto;
+  }
+
+  .rise {
+    animation: none;
+  }
+
+  .animate-pulse {
+    animation: none;
+  }
+}
